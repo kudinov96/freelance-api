@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\FacebookApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +15,7 @@ class FacebookController extends Controller
         }
     }
 
-    public function webhook(Request $request)
+    public function webhook(Request $request, FacebookApiService $facebookApiService)
     {
         $data = $request->all();
 
@@ -23,6 +24,8 @@ class FacebookController extends Controller
                 foreach ($entry['changes'] as $change) {
                     if ($change['field'] === 'leadgen') {
                         $leadgenId = $change['value']['leadgen_id'];
+
+                        Log::channel("facebook")->debug(print_r($facebookApiService->lead($leadgenId), true));
                     }
                 }
             }

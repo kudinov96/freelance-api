@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (\App\Services\FacebookApiService $facebookApiService) {
+    dd($facebookApiService->lead("165170452849953"));
+
     return view('welcome');
 });
 
